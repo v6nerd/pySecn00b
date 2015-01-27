@@ -1,0 +1,4 @@
+import re
+#input_file=open('/root/sp_safari_urls', 'r+').read()
+print (url)
+
