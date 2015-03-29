@@ -11,4 +11,3 @@ for line in InFile:
 	if "User-Agent" in line:
 		output=re.sub(r'^(.*)t:',"",line)
 		print output
-

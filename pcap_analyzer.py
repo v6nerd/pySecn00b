@@ -1,12 +1,19 @@
-#Simple PCAP Analyzer
+#**********************
+# Simple PCAP Analyzer
+#**********************
+
 import sys
 from pcapy import open_offline
-from pcapy import open_offline.Process
+#from pcapy import open_offline.Process
 from impacket.ImpactDecoder import EthDecoder
 from impacket.ImpactPacket import IP, TCP, UDP, ICMP
 
-#pcap_file=file(sys.argv[1], 'read')
-pcap_file="/root/shared/failed_attempts_HPTW_041114.pcap"
+if len(sys.argv)!=2:
+	print "Usage:python pcap_analyzer.py <pcap file>"
+	sys.exit(0)
+
+pcap_file=file(sys.argv[1], 'read')
+#pcap_file="/root/shared/failed_attempts_HPTW_041114.pcap"
 
 packetReader=open_offline(pcap_file)
 packetReader.loop(0,Process)

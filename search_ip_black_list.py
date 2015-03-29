@@ -26,10 +26,17 @@ ip_pattern=re.compile('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}')
 #ip_coll=0
 
 url_list=[
-"http://www.dshield.org/ipsascii.html",
-"http://www.abuse.ch/zeustracker/blocklist.php?download=ipblocklist",
-"http://www.abuse.ch/spyeyetracker/blocklist.php?download=ipblocklist",
-"https://palevotracker.abuse.ch/blocklists.php?download=ipblocklist",
+'https://zeustracker.abuse.ch/blocklist.php?download=ipblocklist',
+'https://spyeyetracker.abuse.ch/blocklist.php?download=ipblocklist',
+'http://www.openbl.org/lists/base.txt',
+'https://palevotracker.abuse.ch/blocklists.php?download=ipblocklist',
+'http://malc0de.com/bl/IP_Blacklist.txt',
+'http://rules.emergingthreats.net/blockrules/compromised-ips.txt',
+'http://www.malwaredomainlist.com/hostslist/ip.txt',
+'http://www.ciarmy.com/list/ci-badguys.txt',
+'https://sslbl.abuse.ch/blacklist/sslipblacklist_aggressive.csv',
+'http://support.clean-mx.de/clean-mx/xmlviruses.php',
+'http://www.projecthoneypot.org/list_of_ips.php?rss=1&rf=40809'
 ]
 
 def ip_check(ip_query):
@@ -60,7 +67,7 @@ def list_construct():
 	cache_write(items)
 
 def cache_write(items):
-	with file(list, 'w') as out_file:
+	with file('ip_blacklist', 'w') as out_file:
 		out_file.write(items) 
 
 def ip_search(list):

@@ -2,7 +2,6 @@
 # McAfee NSM URL Extractor
 #**************************
 
-
 import re
 import os
 import hashlib
@@ -12,7 +11,7 @@ import errno
 from urllib2 import URLError, HTTPError, urlopen, Request 
 from httplib import BadStatusLine
 from optparse import OptionParser
-wepawet=imp.load_source('wepawet','/root/pyScn00b/wepawet_check_nsm.py')
+wepawet=imp.load_source('wepawet','/root/pySecn00b/wepawet_check_nsm.py')
 
 options=OptionParser(usage='%prog [options]', description='Parse URLs from McAfeeNSM Console RAW Data')
 options.set_usage("McAfeeNSM_URL_Parser.py -s <sourcefile>")
