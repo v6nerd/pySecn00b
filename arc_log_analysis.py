@@ -1,5 +1,5 @@
 import sys
-import re
+from re import compile, findall
 from fractions import Fraction
 
 def main():
@@ -41,10 +41,10 @@ def ext_vals(input):
 
 
 def calc_vals(n_lines,zero_cache,max_cache,max_tput,input):
-		max_cache_patt=re.compile('(?:.*' + str(max_cache) + '.*)')
-		max_tput_patt=re.compile('(?:.*' + str(int(max_tput)) + '.*)')
-		c_maxt=re.findall(max_tput_patt, input)
-		t_maxc=re.findall(max_cache_patt, input)
+		max_cache_patt=compile('(?:.*' + str(max_cache) + '.*)')
+		max_tput_patt=compile('(?:.*' + str(int(max_tput)) + '.*)')
+		c_maxt=findall(max_tput_patt, input)
+		t_maxc=findall(max_cache_patt, input)
 		c_maxt_val=0
 		t_maxx_val=0
 		for item in c_maxt:
@@ -53,15 +53,12 @@ def calc_vals(n_lines,zero_cache,max_cache,max_tput,input):
 			t_maxc_val=float((item.split(',')[5]).strip(' T=\n'))
 		
 		if zero_cache > 0:
-	                print "Ratio of Zero-Cache values to total input: %s" % Fraction(zero_cache,n_lines).limit_denominator()
+	                print "Ratio of Zero-Cache values to total input is %s" % str(Fraction(zero_cache,n_lines).limit_denominator()).replace('/',':')
 		else:
 			print "No zero Zero-Caching events recoded"
 
 		print "Maximum cache value is %d recorded while throughput at %f" % (max_cache, t_maxc_val)
 		print "Maximum througput value is %f recoded while cache at %d" %(max_tput, c_maxt_val)
-		
-
-		
 
 
 if __name__=='__main__':
