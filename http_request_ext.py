@@ -12,8 +12,10 @@ def post_requests(line):
         return xl_purl.strip(' ')
 
 def cookie(line):
-	xr_cookie=re.sub(r'^(.*)ie:',"",line)
-	print xr_cookie
+	return (re.sub(r'^(.*)ie:',"",line))
+
+def user_agent(line):
+	return (re.sub(r'(.*)gent:',"",line)).strip('\r\n')
 
 def get_host(line):
 	return (re.sub(r'^(.*)st:',"",line)).strip('\r\n')
@@ -28,7 +30,7 @@ def line_ext(file,opt):
 			elif 'POST' in line and opt=='-g':
 				print (host_info + post_requests(line)).strip(' ')
 			elif 'User-Agent' in line and opt == '-u':
-				print user-agent(line)
+				print user_agent(line)
 			elif 'Cookie' in line and opt=='-c':
 				print cookie(line)
 
@@ -38,6 +40,7 @@ def main():
               		"AVAILABLE OPTIONS:\n"+
               		" -p\tExtract HTTP POST\n"+
               		" -g\tExtract HTTP GET\n"+
+			" -u\tExtract User-Agent Values\n"+
              		" -c\tExtract Cookie Values\n")
 	        sys.exit(0)
 	else:
