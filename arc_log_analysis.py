@@ -1,6 +1,7 @@
 import sys
 from re import compile, findall
 from fractions import Fraction
+from pylab import plot, show, title, figure, xlabel, ylabel
 
 def main():
 	if len(sys.argv)!=2:
@@ -15,6 +16,7 @@ def main():
 		outFile.close()
 		outVal=ext_vals(out_name)
 		calc_vals(outVal[0],outVal[1],outVal[2],outVal[3],data)
+		plot_vals(outVal[4],outVal[5],outVal[2],outVal[3])
 
 def read_log(input):
 	raw_data=''
@@ -37,7 +39,7 @@ def ext_vals(input):
 		tput=float(vals[5].strip(' T='))
 		tput_vals.append(tput)
 		cache_vals.append(cache)
-	return n_line, cache_vals.count(0), max(cache_vals), max(tput_vals)
+	return n_line, cache_vals.count(0), max(cache_vals), max(tput_vals),cache_vals,tput_vals
 
 
 def calc_vals(n_lines,zero_cache,max_cache,max_tput,input):
@@ -60,6 +62,14 @@ def calc_vals(n_lines,zero_cache,max_cache,max_tput,input):
 		print "Maximum cache value is %d recorded while throughput at %f" % (max_cache, t_maxc_val)
 		print "Maximum througput value is %f recoded while cache at %d" %(max_tput, c_maxt_val)
 
+def plot_vals(cache, tput, max_cache, max_tput):
+	plot(cache, tput, color='green',marker='o', ls='None')
+        plot(max_cache, max_tput, color='red', ls='--', marker='D')
+	ylabel('throughput')
+	xlabel('cache size')
+	title('Visualization of acquinted cache vs throughput')
+	show()
+	
 
 if __name__=='__main__':
 	main()

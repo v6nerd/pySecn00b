@@ -36,12 +36,12 @@ def line_ext(file,opt):
 
 def main():
 	if len(sys.argv) < 3:
-		print ("Usage:\nhttp_request_ext.py file [OPTION]\n\n"+
+		print ("Usage:\n %s <pcap file> [OPTION]\n\n"+
               		"AVAILABLE OPTIONS:\n"+
               		" -p\tExtract HTTP POST\n"+
               		" -g\tExtract HTTP GET\n"+
 			" -u\tExtract User-Agent Values\n"+
-             		" -c\tExtract Cookie Values\n")
+             		" -c\tExtract Cookie Values\n") % sys.argv[0]
 	        sys.exit(0)
 	else:
 		inputFile=file(sys.argv[1], 'r').readlines()
