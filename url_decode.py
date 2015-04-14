@@ -16,10 +16,14 @@ def main():
 			process_line=check_hash(curr_hash_val,url_hash_list)
 			url_hash_list.append(curr_hash_val)
 			if '%' in line and process_line==True:
-				print url_decode(line)
+				dec_line=url_decode(line)
+				if '0x' in dec_line:
+					print hex_lookup(dec_line)
+				else:
+					print dec_line
 			if '0x' in line and process_line==True:
-				hex_val=re.findall(r'0x(.*?),',line)
-				print re.sub(r'0x(.*?),',hex_decode(hex_val[0]),line)
+				print hex_lookup(line)
+			
 
 def check_hash(curr_val,list):
 	if curr_val not in list:
@@ -30,10 +34,14 @@ def check_hash(curr_val,list):
 def line_hash(input):
 	hash_val=md5(input.encode())
 	return hash_val.hexdigest()
-	
+
 def url_decode(input):
 	url=unquote(input)
 	return url.decode('utf-8', 'ignore')
+
+def hex_lookup(input):
+	hex_val=re.findall(r'0x(.*?),',input)
+        return re.sub(r'0x(.*?),',hex_decode(hex_val[0]),input)
 
 def hex_decode(input):
 	if len(input) % 2 ==0:

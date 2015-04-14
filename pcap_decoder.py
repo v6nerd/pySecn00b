@@ -1,5 +1,10 @@
 import sys
 import re
+from imp import load_source
+load_source('urlDecoder','/root/pySecn00b/urlDecoder.py')
+from urlDecoder import decode
+
+url_hash_list=[]
 
 def get_requests(line):
 	xr_gurl=re.sub(r'^(.*)GET',"",line).strip(' ')
@@ -20,18 +25,41 @@ def user_agent(line):
 def get_host(line):
 	return (re.sub(r'^(.*)st:',"",line)).strip('\r\n')
 
+def url_decode(input):
+	check_request=decode()
+        #curr_hash_val=check_request.line_hash(input)
+        #process_line=check_request.check_hash(curr_hash_val,url_hash_list)
+        #url_hash_list.append(curr_hash_val)
+        if '%' in input:
+		dec_line=check_request.url_decode(input)
+		if '0x' in dec_line:
+			return check_request.hex_lookup(dec_line)
+                else:
+			return dec_line
+        if '0x' in input:
+		return check_request.hex_lookup(input)
+
+def url_sort(input):
+	input_hash=decode()
+	curr_hash_val=input_hash.line_hash(input)
+        process_line=input_hash.check_hash(curr_hash_val,url_hash_list)
+        url_hash_list.append(curr_hash_val)
+	if process_line==True:
+		print url_decode(input)
+
 def line_ext(file,opt):
 		host_info=''
 		for line in file:
 			if 'Host' in line:
 				host_info=get_host(line)
-			elif 'GET' in line and opt=='-g':
+			if 'GET' in line and opt=='-g':
 				print (host_info + get_requests(line)).strip(' ')
-			elif 'POST' in line and opt=='-p':
-				print (host_info + post_requests(line)).strip(' ')
-			elif 'User-Agent' in line and opt == '-u':
+				url_sort((host_info + get_requests(line)).strip(' '))
+			if 'POST' in line and opt=='-p':
+				url_sort((host_info + post_requests(line)).strip(' '))
+			if 'User-Agent' in line and opt == '-u':
 				print user_agent(line)
-			elif 'Cookie' in line and opt=='-c':
+			if 'Cookie' in line and opt=='-c':
 				print cookie(line)
 
 def main():
