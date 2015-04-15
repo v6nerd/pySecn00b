@@ -26,20 +26,20 @@ def get_host(line):
 	return (re.sub(r'^(.*)st:',"",line)).strip('\r\n')
 
 def url_decode(input):
-	check_request=decode()
+	x=decode()
         if '%' in input:
-		dec_line=check_request.url_decode(input)
+		dec_line=x.url_decode(input)
 		if '0x' in dec_line:
-			return check_request.hex_lookup(dec_line)
+			return x.hex_lookup(dec_line)
                 else:
 			return dec_line
         if '0x' in input:
 		return check_request.hex_lookup(input)
 
 def url_sort(input,dflag):
-	input_hash=hash()
-	curr_hash_val=input_hash.line_hash(input)
-        process_line=input_hash.check_hash(curr_hash_val,url_hash_list)
+	x=hash()
+	curr_hash_val=x.line_hash(input)
+        process_line=x.check_hash(curr_hash_val,url_hash_list)
         url_hash_list.append(curr_hash_val)
 	if process_line==True and dflag==1:
 		print url_decode(input)
