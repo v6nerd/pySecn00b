@@ -1,8 +1,8 @@
 import sys
 import re
 from imp import load_source
-load_source('urlDecoder','/root/pySecn00b/urlDecoder.py')
-from urlDecoder import decode
+load_source('urlDecoder','./urlDecoder.py')
+from urlDecoder import decode, hash
 
 url_hash_list=[]
 
@@ -37,7 +37,7 @@ def url_decode(input):
 		return check_request.hex_lookup(input)
 
 def url_sort(input,dflag):
-	input_hash=decode()
+	input_hash=hash()
 	curr_hash_val=input_hash.line_hash(input)
         process_line=input_hash.check_hash(curr_hash_val,url_hash_list)
         url_hash_list.append(curr_hash_val)
