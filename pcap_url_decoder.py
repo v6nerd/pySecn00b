@@ -27,9 +27,6 @@ def get_host(line):
 
 def url_decode(input):
 	check_request=decode()
-        #curr_hash_val=check_request.line_hash(input)
-        #process_line=check_request.check_hash(curr_hash_val,url_hash_list)
-        #url_hash_list.append(curr_hash_val)
         if '%' in input:
 		dec_line=check_request.url_decode(input)
 		if '0x' in dec_line:
@@ -39,24 +36,25 @@ def url_decode(input):
         if '0x' in input:
 		return check_request.hex_lookup(input)
 
-def url_sort(input):
+def url_sort(input,dflag):
 	input_hash=decode()
 	curr_hash_val=input_hash.line_hash(input)
         process_line=input_hash.check_hash(curr_hash_val,url_hash_list)
         url_hash_list.append(curr_hash_val)
-	if process_line==True:
+	if process_line==True and dflag==1:
 		print url_decode(input)
+	elif process_line==True and dflag==0:
+		print input
 
-def line_ext(file,opt):
+def url_ext(file,opt,dflag=0):
 		host_info=''
 		for line in file:
 			if 'Host' in line:
 				host_info=get_host(line)
 			if 'GET' in line and opt=='-g':
-				print (host_info + get_requests(line)).strip(' ')
-				url_sort((host_info + get_requests(line)).strip(' '))
+				url_sort((host_info + get_requests(line)).strip(' '),dflag)
 			if 'POST' in line and opt=='-p':
-				url_sort((host_info + post_requests(line)).strip(' '))
+				url_sort((host_info + post_requests(line)).strip(' '),dflag)
 			if 'User-Agent' in line and opt == '-u':
 				print user_agent(line)
 			if 'Cookie' in line and opt=='-c':
@@ -66,14 +64,19 @@ def main():
 	if len(sys.argv) < 3:
 		print ("Usage:\n %s <pcap file> [OPTION]\n\n"+
               		"AVAILABLE OPTIONS:\n"+
-              		" -p\tExtract HTTP POST\n"+
-              		" -g\tExtract HTTP GET\n"+
-			" -u\tExtract User-Agent Values\n"+
-             		" -c\tExtract Cookie Values\n") % sys.argv[0]
+              		" -p\t\tExtract HTTP POST\n"+
+              		" -g\t\tExtract HTTP GET\n"+
+			" -u\t\tExtract User-Agent Values\n"+
+             		" -c\t\tExtract Cookie Values\n"+
+			" +decode \tDecode GET/POST Requests\n" ) % sys.argv[0]
 	        sys.exit(0)
-	else:
+	elif len(sys.argv)==3:
 		inputFile=file(sys.argv[1], 'r').readlines()
-		line_ext(inputFile, sys.argv[2])
+		url_ext(inputFile, sys.argv[2])
+	elif len(sys.argv)==4 and sys.argv[3]=='+decode':
+		inputFile=file(sys.argv[1], 'r').readlines()
+                url_ext(inputFile, sys.argv[2],1)
+
 			
 if __name__ == '__main__':
 	main()
