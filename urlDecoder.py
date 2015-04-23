@@ -3,6 +3,7 @@ from urllib import unquote
 import re
 from binascii import unhexlify
 from hashlib import md5
+from base64 import b64decode
 
 class decode:
 
@@ -33,6 +34,9 @@ class hash:
 	def line_hash(self,input):
 		hash_val=md5(input.encode())
 		return hash_val.hexdigest()
+
+	
+		
 
 
 

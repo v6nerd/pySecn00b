@@ -34,7 +34,7 @@ def url_decode(input):
                 else:
 			return dec_line
         if '0x' in input:
-		return check_request.hex_lookup(input)
+		return x.hex_lookup(input)
 
 def url_sort(input,dflag):
 	x=hash()
