@@ -24,9 +24,6 @@ OPTIONS AVAILABLE:
 
 
 def check_arg(input,opt):
-	#inputFile=open(input, 'r').readlines()
-        #out_filename=input + '.cln'
-        #outFile=open(out_filename, 'w')
 	if isfile(input) and from_file(input, mime=True)[:4]=='text':
 		inputFile=open(input, 'r').readlines()
 		out_filename=input + '.cln'
