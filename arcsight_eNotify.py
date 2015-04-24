@@ -42,8 +42,8 @@ def trace_error(input):
 			mail_notify(line.strip('\n'),'ERROR')
 
 def mail_notify(input,type):
-	sender='mhdhabeb@gmail.com'
-	receiver='mhdhabeb@yahoo.com'
+	sender='xxxx@gmail.com'
+	receiver='xxxx@yahoo.com'
 	message=MIMEText(input)
 	message['From']=sender
 	message['To']=receiver
@@ -74,7 +74,7 @@ def tail(inputFile):
 		return line
 
 def smtp_connect(server,port):
-	user_id='mhdhabeb@gmail.com'
+	user_id='xxxx@gmail.com'
 	passwd=getpass.getpass()
 	if passwd:
 	 print 'Trying to Authenticate....'
