@@ -9,13 +9,16 @@ ignored_files=[]
 def main():
 	if len(sys.argv)!= 3:
 		print '''
-== Custom LOG Sanitizer ==
-Usage: python %s <log file> [OPTION]\n
+====================
+Custom LOG Sanitizer
+====================
+Usage: python %s <log file> [OPTION]
+
 OPTIONS AVAILABLE:
 -i Clean IP Addresses
 -h Clean HostNames
 -a Clean All
-		''' % sys.argv[0]
+''' % sys.argv[0]
 		sys.exit(0)
 	else:
 		input=sys.argv[1]
