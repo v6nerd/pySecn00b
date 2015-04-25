@@ -28,6 +28,8 @@ Usage: %s <log file> [OPTION]
 			trace_warn(file)
 		if cflag=='-e':
 			trace_error(file)
+		if cflag=='-a':
+			trace_all(file)
 
 def trace_warn(input):
 	while True:
@@ -41,9 +43,16 @@ def trace_error(input):
                 if "ERROR" in line: 
 			mail_notify(line.strip('\n'),'ERROR')
 
+
+def trace_all(input):
+	while True:
+		line=str(tail_read(input))
+		if "WARN" in line or "ERROR" in line:
+			mail_notify(line.strip('\n'),"ALL")
+
 def mail_notify(input,type):
-	sender='xxxx@gmail.com'
-	receiver='xxxx@yahoo.com'
+	sender='user@mail.com'
+	receiver='user@mail.com'
 	message=MIMEText(input)
 	message['From']=sender
 	message['To']=receiver
@@ -74,10 +83,10 @@ def tail(inputFile):
 		return line
 
 def smtp_connect(server,port):
-	user_id='xxxx@gmail.com'
+	user_id='user@mail.com'
 	passwd=getpass.getpass()
 	if passwd:
-	 print 'Trying to Authenticate....'
+	 print 'Trying to Authenticate...'
 	 try:
 	   global mail_server
            mail_server=smtplib.SMTP(server,port)
