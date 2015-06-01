@@ -3,6 +3,7 @@ import re
 from imp import load_source
 load_source('urlDecoder','./urlDecoder.py')
 from urlDecoder import decode, hash
+import pyshark
 
 url_hash_list=[]
 
@@ -24,6 +25,11 @@ def user_agent(line):
 
 def get_host(line):
 	return (re.sub(r'^(.*)st:',"",line)).strip('\r\n')
+
+def get_payload(packet):
+	payload_data=str(packet.layers[5]).split(":")
+	payload=payload_data[1].strip()
+	url_sort(payload,0)
 
 def url_decode(input):
 	x=decode()
@@ -68,8 +74,18 @@ def main():
               		" -g\t\tExtract HTTP GET\n"+
 			" -u\t\tExtract User-Agent Values\n"+
              		" -c\t\tExtract Cookie Values\n"+
+			" -d\t\tExtract Payload DATA\n"
 			" +decode \tDecode GET/POST Requests\n" ) % sys.argv[0]
 	        sys.exit(0)
+	elif len(sys.argv)==3 and sys.argv[2]=="-d":
+		pcap_file=pyshark.FileCapture(sys.argv[1])
+		for packet in pcap_file:
+			try:
+				get_payload(packet)
+
+			except IndexError:
+				pass
+
 	elif len(sys.argv)==3:
 		inputFile=file(sys.argv[1], 'r').readlines()
 		url_ext(inputFile, sys.argv[2])
