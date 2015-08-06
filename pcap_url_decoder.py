@@ -1,11 +1,19 @@
+#!/usr/bin/python
 import sys
 import re
 from imp import load_source
-load_source('urlDecoder','./urlDecoder.py')
+load_source('urlDecoder','/root/pySecn00b/urlDecoder.py')
 from urlDecoder import decode, hash
-import pyshark
+from scapy.all import *
+
 
 url_hash_list=[]
+
+def get_packet_raw(pcap,dflag):
+	for packet in pcap:
+		#print packet[IP].src
+		print packet.getlayer(Raw)
+
 
 def get_requests(line):
 	xr_gurl=re.sub(r'^(.*)GET',"",line).strip(' ')
@@ -25,11 +33,6 @@ def user_agent(line):
 
 def get_host(line):
 	return (re.sub(r'^(.*)st:',"",line)).strip('\r\n')
-
-def get_payload(packet):
-	payload_data=str(packet.layers[5]).split(":")
-	payload=payload_data[1].strip()
-	url_sort(payload,0)
 
 def url_decode(input):
 	x=decode()
@@ -74,25 +77,18 @@ def main():
               		" -g\t\tExtract HTTP GET\n"+
 			" -u\t\tExtract User-Agent Values\n"+
              		" -c\t\tExtract Cookie Values\n"+
-			" -d\t\tExtract Payload DATA\n"
+			" -r\t\tExtract Raw Payload\n"
 			" +decode \tDecode GET/POST Requests\n" ) % sys.argv[0]
 	        sys.exit(0)
-	elif len(sys.argv)==3 and sys.argv[2]=="-d":
-		pcap_file=pyshark.FileCapture(sys.argv[1])
-		for packet in pcap_file:
-			try:
-				get_payload(packet)
-
-			except IndexError:
-				pass
-
+	elif len(sys.argv)==3 and sys.argv[2]=='-r':
+                inputFile=rdpcap(sys.argv[1])
+		get_packet_raw(inputFile,0)
 	elif len(sys.argv)==3:
 		inputFile=file(sys.argv[1], 'r').readlines()
 		url_ext(inputFile, sys.argv[2])
 	elif len(sys.argv)==4 and sys.argv[3]=='+decode':
 		inputFile=file(sys.argv[1], 'r').readlines()
                 url_ext(inputFile, sys.argv[2],1)
-
-			
+	
 if __name__ == '__main__':
 	main()
